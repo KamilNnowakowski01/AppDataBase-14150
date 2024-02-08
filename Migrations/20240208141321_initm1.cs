@@ -53,20 +53,20 @@ namespace AppDataBase.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Processors",
+                name: "Graphics",
                 columns: table => new
                 {
-                    ProcessorId = table.Column<int>(type: "int", nullable: false)
+                    GraphicsId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Series = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Socket = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CoreClockGHz = table.Column<float>(type: "real", nullable: false),
-                    NumberofCores = table.Column<int>(type: "int", nullable: false)
+                    MemoryGB = table.Column<int>(type: "int", nullable: false),
+                    ConnectorType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CoreClockMHz = table.Column<int>(type: "int", nullable: false),
+                    RecommendedPower = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Processors", x => x.ProcessorId);
+                    table.PrimaryKey("PK_Graphics", x => x.GraphicsId);
                 });
 
             migrationBuilder.CreateTable(
@@ -196,10 +196,10 @@ namespace AppDataBase.Migrations
                 {
                     ComputerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ComputerName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MemoryRam = table.Column<int>(type: "int", nullable: false),
                     MemoryDisk = table.Column<int>(type: "int", nullable: false),
-                    GraphicsCard = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Processor = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfProduction = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ProducerId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -214,38 +214,42 @@ namespace AppDataBase.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ComputerProcessors",
+                name: "ComputersGraphics",
                 columns: table => new
                 {
                     ComputerId = table.Column<int>(type: "int", nullable: false),
-                    ProcessorId = table.Column<int>(type: "int", nullable: false),
+                    GraphicsId = table.Column<int>(type: "int", nullable: false),
                     Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ComputerProcessors", x => new { x.ComputerId, x.ProcessorId });
+                    table.PrimaryKey("PK_ComputersGraphics", x => new { x.ComputerId, x.GraphicsId });
                     table.ForeignKey(
-                        name: "FK_ComputerProcessors_Computers_ProcessorId",
-                        column: x => x.ProcessorId,
+                        name: "FK_ComputersGraphics_Computers_ComputerId",
+                        column: x => x.ComputerId,
                         principalTable: "Computers",
                         principalColumn: "ComputerId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ComputerProcessors_Processors_ProcessorId",
-                        column: x => x.ProcessorId,
-                        principalTable: "Processors",
-                        principalColumn: "ProcessorId",
+                        name: "FK_ComputersGraphics_Graphics_GraphicsId",
+                        column: x => x.GraphicsId,
+                        principalTable: "Graphics",
+                        principalColumn: "GraphicsId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                table: "Processors",
-                columns: new[] { "ProcessorId", "CoreClockGHz", "Name", "NumberofCores", "Series", "Socket" },
+                table: "Graphics",
+                columns: new[] { "GraphicsId", "ConnectorType", "CoreClockMHz", "MemoryGB", "Name", "RecommendedPower" },
                 values: new object[,]
                 {
-                    { 1, 3.8f, "Intel Core i7-10700K", 8, "Core i7", "LGA1200" },
-                    { 2, 3.7f, "AMD Ryzen 9 5900X", 12, "Ryzen 9", "AM4" },
-                    { 3, 3.9f, "Intel Core i5-11600K", 6, "Core i5", "LGA1200" }
+                    { 1, "PCIe 4.0 x16", 1440, 10, "NVIDIA RTX 3080", 320 },
+                    { 2, "PCIe 4.0 x16", 1815, 16, "AMD Radeon RX 6800", 250 },
+                    { 3, "PCIe 3.0 x16", 1500, 6, "NVIDIA GTX 1660 Ti", 120 },
+                    { 4, "PCIe 4.0 x8", 1717, 8, "AMD Radeon RX 5500 XT", 130 },
+                    { 5, "PCIe 3.0 x16", 1470, 8, "NVIDIA RTX 2060 Super", 175 },
+                    { 6, "PCIe 4.0 x16", 1465, 8, "AMD Radeon RX 5700", 180 },
+                    { 7, "PCIe 4.0 x16", 1395, 24, "NVIDIA RTX 3090", 350 }
                 });
 
             migrationBuilder.InsertData(
@@ -261,28 +265,31 @@ namespace AppDataBase.Migrations
 
             migrationBuilder.InsertData(
                 table: "Computers",
-                columns: new[] { "ComputerId", "ComputerName", "DateOfProduction", "GraphicsCard", "MemoryDisk", "MemoryRam", "ProducerId" },
+                columns: new[] { "ComputerId", "DateOfProduction", "MemoryDisk", "MemoryRam", "Name", "Processor", "ProducerId" },
                 values: new object[,]
                 {
-                    { 1, "Gamer Extreme", new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "NVIDIA RTX 3070", 512, 16, 1 },
-                    { 2, "Office Pro", new DateTime(2022, 8, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), "Intel Integrated", 256, 8, 2 },
-                    { 3, "Workstation Power", new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), "AMD Radeon RX 6800", 1024, 32, 3 },
-                    { 4, "Ultra Slim", new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), "NVIDIA GTX 1650", 512, 16, 4 },
-                    { 5, "Graphic Designer Pro", new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), "NVIDIA RTX 3090", 2048, 64, 1 },
-                    { 6, "Budget Friendly", new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), "Intel Integrated", 128, 4, 2 }
+                    { 1, new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), 512, 16, "Gamer Extreme", "Intel Core i7-10700K", 1 },
+                    { 2, new DateTime(2022, 8, 24, 0, 0, 0, 0, DateTimeKind.Unspecified), 256, 8, "Office Pro", "Intel Core i7-10700K", 2 },
+                    { 3, new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 1024, 32, "Workstation Power", "AMD Ryzen 9 5900X", 3 },
+                    { 4, new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), 512, 16, "Ultra Slim", "Intel Core i5-11600K", 4 },
+                    { 5, new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 2048, 64, "Graphic Designer Pro", "Intel Core i5-11600K", 1 },
+                    { 6, new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified), 128, 4, "Budget Friendly", "AMD Ryzen 9 5900X", 2 }
                 });
 
             migrationBuilder.InsertData(
-                table: "ComputerProcessors",
-                columns: new[] { "ComputerId", "ProcessorId", "Id" },
+                table: "ComputersGraphics",
+                columns: new[] { "ComputerId", "GraphicsId", "Id" },
                 values: new object[,]
                 {
-                    { 1, 2, 1 },
-                    { 2, 1, 2 },
-                    { 3, 3, 3 },
-                    { 4, 2, 4 },
-                    { 5, 1, 5 },
-                    { 6, 3, 6 }
+                    { 1, 2, 7 },
+                    { 1, 7, 1 },
+                    { 2, 3, 2 },
+                    { 3, 1, 3 },
+                    { 3, 6, 8 },
+                    { 4, 5, 4 },
+                    { 5, 2, 5 },
+                    { 5, 7, 9 },
+                    { 6, 4, 6 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -325,14 +332,14 @@ namespace AppDataBase.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ComputerProcessors_ProcessorId",
-                table: "ComputerProcessors",
-                column: "ProcessorId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Computers_ProducerId",
                 table: "Computers",
                 column: "ProducerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ComputersGraphics_GraphicsId",
+                table: "ComputersGraphics",
+                column: "GraphicsId");
         }
 
         /// <inheritdoc />
@@ -354,7 +361,7 @@ namespace AppDataBase.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ComputerProcessors");
+                name: "ComputersGraphics");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -366,7 +373,7 @@ namespace AppDataBase.Migrations
                 name: "Computers");
 
             migrationBuilder.DropTable(
-                name: "Processors");
+                name: "Graphics");
 
             migrationBuilder.DropTable(
                 name: "Producers");

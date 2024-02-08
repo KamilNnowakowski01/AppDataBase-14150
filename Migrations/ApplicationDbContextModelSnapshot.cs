@@ -30,22 +30,22 @@ namespace AppDataBase.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ComputerId"));
 
-                    b.Property<string>("ComputerName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("DateOfProduction")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("GraphicsCard")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("MemoryDisk")
                         .HasColumnType("int");
 
                     b.Property<int>("MemoryRam")
                         .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Processor")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("ProducerId")
                         .HasColumnType("int");
@@ -60,178 +60,231 @@ namespace AppDataBase.Migrations
                         new
                         {
                             ComputerId = 1,
-                            ComputerName = "Gamer Extreme",
                             DateOfProduction = new DateTime(2023, 1, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GraphicsCard = "NVIDIA RTX 3070",
                             MemoryDisk = 512,
                             MemoryRam = 16,
+                            Name = "Gamer Extreme",
+                            Processor = "Intel Core i7-10700K",
                             ProducerId = 1
                         },
                         new
                         {
                             ComputerId = 2,
-                            ComputerName = "Office Pro",
                             DateOfProduction = new DateTime(2022, 8, 24, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GraphicsCard = "Intel Integrated",
                             MemoryDisk = 256,
                             MemoryRam = 8,
+                            Name = "Office Pro",
+                            Processor = "Intel Core i7-10700K",
                             ProducerId = 2
                         },
                         new
                         {
                             ComputerId = 3,
-                            ComputerName = "Workstation Power",
                             DateOfProduction = new DateTime(2023, 2, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GraphicsCard = "AMD Radeon RX 6800",
                             MemoryDisk = 1024,
                             MemoryRam = 32,
+                            Name = "Workstation Power",
+                            Processor = "AMD Ryzen 9 5900X",
                             ProducerId = 3
                         },
                         new
                         {
                             ComputerId = 4,
-                            ComputerName = "Ultra Slim",
                             DateOfProduction = new DateTime(2023, 1, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GraphicsCard = "NVIDIA GTX 1650",
                             MemoryDisk = 512,
                             MemoryRam = 16,
+                            Name = "Ultra Slim",
+                            Processor = "Intel Core i5-11600K",
                             ProducerId = 4
                         },
                         new
                         {
                             ComputerId = 5,
-                            ComputerName = "Graphic Designer Pro",
                             DateOfProduction = new DateTime(2023, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GraphicsCard = "NVIDIA RTX 3090",
                             MemoryDisk = 2048,
                             MemoryRam = 64,
+                            Name = "Graphic Designer Pro",
+                            Processor = "Intel Core i5-11600K",
                             ProducerId = 1
                         },
                         new
                         {
                             ComputerId = 6,
-                            ComputerName = "Budget Friendly",
                             DateOfProduction = new DateTime(2023, 2, 28, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            GraphicsCard = "Intel Integrated",
                             MemoryDisk = 128,
                             MemoryRam = 4,
+                            Name = "Budget Friendly",
+                            Processor = "AMD Ryzen 9 5900X",
                             ProducerId = 2
                         });
                 });
 
-            modelBuilder.Entity("AppModel.Models.ComputerProcessor", b =>
+            modelBuilder.Entity("AppModel.Models.ComputersGraphics", b =>
                 {
                     b.Property<int>("ComputerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProcessorId")
+                    b.Property<int>("GraphicsId")
                         .HasColumnType("int");
 
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
-                    b.HasKey("ComputerId", "ProcessorId");
+                    b.HasKey("ComputerId", "GraphicsId");
 
-                    b.HasIndex("ProcessorId");
+                    b.HasIndex("GraphicsId");
 
-                    b.ToTable("ComputerProcessors");
+                    b.ToTable("ComputersGraphics");
 
                     b.HasData(
                         new
                         {
                             ComputerId = 1,
-                            ProcessorId = 2,
+                            GraphicsId = 7,
                             Id = 1
                         },
                         new
                         {
                             ComputerId = 2,
-                            ProcessorId = 1,
+                            GraphicsId = 3,
                             Id = 2
                         },
                         new
                         {
                             ComputerId = 3,
-                            ProcessorId = 3,
+                            GraphicsId = 1,
                             Id = 3
                         },
                         new
                         {
                             ComputerId = 4,
-                            ProcessorId = 2,
+                            GraphicsId = 5,
                             Id = 4
                         },
                         new
                         {
                             ComputerId = 5,
-                            ProcessorId = 1,
+                            GraphicsId = 2,
                             Id = 5
                         },
                         new
                         {
                             ComputerId = 6,
-                            ProcessorId = 3,
+                            GraphicsId = 4,
                             Id = 6
+                        },
+                        new
+                        {
+                            ComputerId = 1,
+                            GraphicsId = 2,
+                            Id = 7
+                        },
+                        new
+                        {
+                            ComputerId = 3,
+                            GraphicsId = 6,
+                            Id = 8
+                        },
+                        new
+                        {
+                            ComputerId = 5,
+                            GraphicsId = 7,
+                            Id = 9
                         });
                 });
 
-            modelBuilder.Entity("AppModel.Models.Processor", b =>
+            modelBuilder.Entity("AppModel.Models.Graphics", b =>
                 {
-                    b.Property<int>("ProcessorId")
+                    b.Property<int>("GraphicsId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProcessorId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GraphicsId"));
 
-                    b.Property<float>("CoreClockGHz")
-                        .HasColumnType("real");
+                    b.Property<string>("ConnectorType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CoreClockMHz")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MemoryGB")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("NumberofCores")
+                    b.Property<int>("RecommendedPower")
                         .HasColumnType("int");
 
-                    b.Property<string>("Series")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("GraphicsId");
 
-                    b.Property<string>("Socket")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ProcessorId");
-
-                    b.ToTable("Processors");
+                    b.ToTable("Graphics");
 
                     b.HasData(
                         new
                         {
-                            ProcessorId = 1,
-                            CoreClockGHz = 3.8f,
-                            Name = "Intel Core i7-10700K",
-                            NumberofCores = 8,
-                            Series = "Core i7",
-                            Socket = "LGA1200"
+                            GraphicsId = 1,
+                            ConnectorType = "PCIe 4.0 x16",
+                            CoreClockMHz = 1440,
+                            MemoryGB = 10,
+                            Name = "NVIDIA RTX 3080",
+                            RecommendedPower = 320
                         },
                         new
                         {
-                            ProcessorId = 2,
-                            CoreClockGHz = 3.7f,
-                            Name = "AMD Ryzen 9 5900X",
-                            NumberofCores = 12,
-                            Series = "Ryzen 9",
-                            Socket = "AM4"
+                            GraphicsId = 2,
+                            ConnectorType = "PCIe 4.0 x16",
+                            CoreClockMHz = 1815,
+                            MemoryGB = 16,
+                            Name = "AMD Radeon RX 6800",
+                            RecommendedPower = 250
                         },
                         new
                         {
-                            ProcessorId = 3,
-                            CoreClockGHz = 3.9f,
-                            Name = "Intel Core i5-11600K",
-                            NumberofCores = 6,
-                            Series = "Core i5",
-                            Socket = "LGA1200"
+                            GraphicsId = 3,
+                            ConnectorType = "PCIe 3.0 x16",
+                            CoreClockMHz = 1500,
+                            MemoryGB = 6,
+                            Name = "NVIDIA GTX 1660 Ti",
+                            RecommendedPower = 120
+                        },
+                        new
+                        {
+                            GraphicsId = 4,
+                            ConnectorType = "PCIe 4.0 x8",
+                            CoreClockMHz = 1717,
+                            MemoryGB = 8,
+                            Name = "AMD Radeon RX 5500 XT",
+                            RecommendedPower = 130
+                        },
+                        new
+                        {
+                            GraphicsId = 5,
+                            ConnectorType = "PCIe 3.0 x16",
+                            CoreClockMHz = 1470,
+                            MemoryGB = 8,
+                            Name = "NVIDIA RTX 2060 Super",
+                            RecommendedPower = 175
+                        },
+                        new
+                        {
+                            GraphicsId = 6,
+                            ConnectorType = "PCIe 4.0 x16",
+                            CoreClockMHz = 1465,
+                            MemoryGB = 8,
+                            Name = "AMD Radeon RX 5700",
+                            RecommendedPower = 180
+                        },
+                        new
+                        {
+                            GraphicsId = 7,
+                            ConnectorType = "PCIe 4.0 x16",
+                            CoreClockMHz = 1395,
+                            MemoryGB = 24,
+                            Name = "NVIDIA RTX 3090",
+                            RecommendedPower = 350
                         });
                 });
 
@@ -500,23 +553,23 @@ namespace AppDataBase.Migrations
                     b.Navigation("Producer");
                 });
 
-            modelBuilder.Entity("AppModel.Models.ComputerProcessor", b =>
+            modelBuilder.Entity("AppModel.Models.ComputersGraphics", b =>
                 {
                     b.HasOne("AppModel.Models.Computer", "Computer")
-                        .WithMany("ComputerProcessors")
-                        .HasForeignKey("ProcessorId")
+                        .WithMany("ComputersGraphics")
+                        .HasForeignKey("ComputerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AppModel.Models.Processor", "Processor")
-                        .WithMany("ComputerProcessor")
-                        .HasForeignKey("ProcessorId")
+                    b.HasOne("AppModel.Models.Graphics", "Graphics")
+                        .WithMany("ComputersGraphics")
+                        .HasForeignKey("GraphicsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Computer");
 
-                    b.Navigation("Processor");
+                    b.Navigation("Graphics");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -572,12 +625,12 @@ namespace AppDataBase.Migrations
 
             modelBuilder.Entity("AppModel.Models.Computer", b =>
                 {
-                    b.Navigation("ComputerProcessors");
+                    b.Navigation("ComputersGraphics");
                 });
 
-            modelBuilder.Entity("AppModel.Models.Processor", b =>
+            modelBuilder.Entity("AppModel.Models.Graphics", b =>
                 {
-                    b.Navigation("ComputerProcessor");
+                    b.Navigation("ComputersGraphics");
                 });
 
             modelBuilder.Entity("AppModel.Models.Producer", b =>

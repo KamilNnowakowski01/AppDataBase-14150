@@ -13,8 +13,8 @@ namespace AppDataBase.Data // Change to your actual namespace
         }
 
         public DbSet<Computer> Computers { get; set; }
-        public DbSet<ComputerProcessor> ComputerProcessors { get; set; }
-        public DbSet<Processor> Processors { get; set; }
+        public DbSet<Graphics> Graphics { get; set; }
+        public DbSet<ComputersGraphics> ComputersGraphics { get; set; }
         public DbSet<Producer> Producers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,18 +23,18 @@ namespace AppDataBase.Data // Change to your actual namespace
 
             // Relations
             // Many-to-Many: Book and Author
-            modelBuilder.Entity<ComputerProcessor>()
-                .HasKey(ba => new { ba.ComputerId, ba.ProcessorId });
+            modelBuilder.Entity<ComputersGraphics>()
+                .HasKey(ba => new { ba.ComputerId, ba.GraphicsId });
 
-            modelBuilder.Entity<ComputerProcessor>()
+            modelBuilder.Entity<ComputersGraphics>()
                 .HasOne(ba => ba.Computer)
-                .WithMany(b => b.ComputerProcessors)
+                .WithMany(b => b.ComputersGraphics)
                 .HasForeignKey(ba => ba.ComputerId);
 
-            modelBuilder.Entity<ComputerProcessor>()
-                .HasOne(ba => ba.Computer)
-                .WithMany(a => a.ComputerProcessors)
-                .HasForeignKey(ba => ba.ProcessorId);
+            modelBuilder.Entity<ComputersGraphics>()
+                .HasOne(ba => ba.Graphics)
+                .WithMany(a => a.ComputersGraphics)
+                .HasForeignKey(ba => ba.GraphicsId);
             // One-to-Many: Book and Publisher
             modelBuilder.Entity<Computer>()
                 .HasOne(b => b.Producer)
@@ -42,38 +42,44 @@ namespace AppDataBase.Data // Change to your actual namespace
                 .HasForeignKey(b => b.ProducerId);
 
             // Seed initial data (example)
-            modelBuilder.Entity<Computer>().HasData(
-                new Computer { ComputerId = 1, ComputerName = "Gamer Extreme", MemoryRam = 16, MemoryDisk = 512, GraphicsCard = "NVIDIA RTX 3070", DateOfProduction = new DateTime(2023, 1, 10), ProducerId = 1 },
-                new Computer { ComputerId = 2, ComputerName = "Office Pro", MemoryRam = 8, MemoryDisk = 256, GraphicsCard = "Intel Integrated", DateOfProduction = new DateTime(2022, 8, 24), ProducerId = 2 },
-                new Computer { ComputerId = 3, ComputerName = "Workstation Power", MemoryRam = 32, MemoryDisk = 1024, GraphicsCard = "AMD Radeon RX 6800", DateOfProduction = new DateTime(2023, 2, 15), ProducerId = 3 },
-                new Computer { ComputerId = 4, ComputerName = "Ultra Slim", MemoryRam = 16, MemoryDisk = 512, GraphicsCard = "NVIDIA GTX 1650", DateOfProduction = new DateTime(2023, 1, 20), ProducerId = 4 },
-                new Computer { ComputerId = 5, ComputerName = "Graphic Designer Pro", MemoryRam = 64, MemoryDisk = 2048, GraphicsCard = "NVIDIA RTX 3090", DateOfProduction = new DateTime(2023, 3, 5), ProducerId = 1 },
-                new Computer { ComputerId = 6, ComputerName = "Budget Friendly", MemoryRam = 4, MemoryDisk = 128, GraphicsCard = "Intel Integrated", DateOfProduction = new DateTime(2023, 2, 28), ProducerId = 2 }
 
-            );
-
-            modelBuilder.Entity<Processor>().HasData(
-                new Processor { ProcessorId = 1, Name = "Intel Core i7-10700K", Series = "Core i7", Socket = "LGA1200", CoreClockGHz = 3.8f, NumberofCores = 8 },
-                new Processor { ProcessorId = 2, Name = "AMD Ryzen 9 5900X", Series = "Ryzen 9", Socket = "AM4", CoreClockGHz = 3.7f, NumberofCores = 12 },
-                new Processor { ProcessorId = 3, Name = "Intel Core i5-11600K", Series = "Core i5", Socket = "LGA1200", CoreClockGHz = 3.9f, NumberofCores = 6 }
-
-            );
-
-            modelBuilder.Entity<ComputerProcessor>().HasData(
-                new ComputerProcessor { Id = 1, ComputerId = 1, ProcessorId = 2 },
-                new ComputerProcessor { Id = 2, ComputerId = 2, ProcessorId = 1 },
-                new ComputerProcessor { Id = 3, ComputerId = 3, ProcessorId = 3 },
-                new ComputerProcessor { Id = 4, ComputerId = 4, ProcessorId = 2 },
-                new ComputerProcessor { Id = 5, ComputerId = 5, ProcessorId = 1 },
-                new ComputerProcessor { Id = 6, ComputerId = 6, ProcessorId = 3 }
+            modelBuilder.Entity<Graphics>().HasData(
+                new Graphics() { GraphicsId = 1, Name = "NVIDIA RTX 3080", MemoryGB = 10, ConnectorType = "PCIe 4.0 x16", CoreClockMHz = 1440, RecommendedPower = 320 },
+                new Graphics() { GraphicsId = 2, Name = "AMD Radeon RX 6800", MemoryGB = 16, ConnectorType = "PCIe 4.0 x16", CoreClockMHz = 1815, RecommendedPower = 250 },
+                new Graphics() { GraphicsId = 3, Name = "NVIDIA GTX 1660 Ti", MemoryGB = 6, ConnectorType = "PCIe 3.0 x16", CoreClockMHz = 1500, RecommendedPower = 120 },
+                new Graphics() { GraphicsId = 4, Name = "AMD Radeon RX 5500 XT", MemoryGB = 8, ConnectorType = "PCIe 4.0 x8", CoreClockMHz = 1717, RecommendedPower = 130 },
+                new Graphics() { GraphicsId = 5, Name = "NVIDIA RTX 2060 Super", MemoryGB = 8, ConnectorType = "PCIe 3.0 x16", CoreClockMHz = 1470, RecommendedPower = 175 },
+                new Graphics() { GraphicsId = 6, Name = "AMD Radeon RX 5700", MemoryGB = 8, ConnectorType = "PCIe 4.0 x16", CoreClockMHz = 1465, RecommendedPower = 180 },
+                new Graphics() { GraphicsId = 7, Name = "NVIDIA RTX 3090", MemoryGB = 24, ConnectorType = "PCIe 4.0 x16", CoreClockMHz = 1395, RecommendedPower = 350 }
             );
 
             modelBuilder.Entity<Producer>().HasData(
-                new Producer { ProducerId = 1, Name = "Tech Innovations Inc.", Address = "123 Tech Drive, Silicon Valley, CA", YearFounded = 1984 },
-                new Producer { ProducerId = 2, Name = "Global Computing Ltd.", Address = "456 Global Way, London, UK", YearFounded = 1978 },
-                new Producer { ProducerId = 3, Name = "Creative Solutions Inc.", Address = "789 Innovation Parkway, Boston, MA", YearFounded = 1992 },
-                new Producer { ProducerId = 4, Name = "Portable Tech Co.", Address = "101 Mobile Avenue, Tokyo, Japan", YearFounded = 1986 }
+                new Producer() { ProducerId = 1, Name = "Tech Innovations Inc.", Address = "123 Tech Drive, Silicon Valley, CA", YearFounded = 1984 },
+                new Producer() { ProducerId = 2, Name = "Global Computing Ltd.", Address = "456 Global Way, London, UK", YearFounded = 1978 },
+                new Producer() { ProducerId = 3, Name = "Creative Solutions Inc.", Address = "789 Innovation Parkway, Boston, MA", YearFounded = 1992 },
+                new Producer() { ProducerId = 4, Name = "Portable Tech Co.", Address = "101 Mobile Avenue, Tokyo, Japan", YearFounded = 1986 }
+            );
 
+            modelBuilder.Entity<Computer>().HasData(
+                new Computer() { ComputerId = 1, Name = "Gamer Extreme", MemoryRam = 16, MemoryDisk = 512, Processor = "Intel Core i7-10700K", DateOfProduction = new DateTime(2023, 1, 10), ProducerId = 1 },
+                new Computer() { ComputerId = 2, Name = "Office Pro", MemoryRam = 8, MemoryDisk = 256, Processor = "Intel Core i7-10700K", DateOfProduction = new DateTime(2022, 8, 24), ProducerId = 2 },
+                new Computer() { ComputerId = 3, Name = "Workstation Power", MemoryRam = 32, MemoryDisk = 1024, Processor = "AMD Ryzen 9 5900X", DateOfProduction = new DateTime(2023, 2, 15), ProducerId = 3 },
+                new Computer() { ComputerId = 4, Name = "Ultra Slim", MemoryRam = 16, MemoryDisk = 512, Processor = "Intel Core i5-11600K", DateOfProduction = new DateTime(2023, 1, 20), ProducerId = 4 },
+                new Computer() { ComputerId = 5, Name = "Graphic Designer Pro", MemoryRam = 64, MemoryDisk = 2048, Processor = "Intel Core i5-11600K", DateOfProduction = new DateTime(2023, 3, 5), ProducerId = 1 },
+                new Computer() { ComputerId = 6, Name = "Budget Friendly", MemoryRam = 4, MemoryDisk = 128, Processor = "AMD Ryzen 9 5900X", DateOfProduction = new DateTime(2023, 2, 28), ProducerId = 2 }
+
+            );
+
+            modelBuilder.Entity<ComputersGraphics>().HasData(
+                new ComputersGraphics() { Id = 1, ComputerId = 1, GraphicsId = 7 }, // "Gamer Extreme" z NVIDIA RTX 3090
+                new ComputersGraphics() { Id = 2, ComputerId = 2, GraphicsId = 3 }, // "Office Pro" z NVIDIA GTX 1660 Ti
+                new ComputersGraphics() { Id = 3, ComputerId = 3, GraphicsId = 1 }, // "Workstation Power" z NVIDIA RTX 3080
+                new ComputersGraphics() { Id = 4, ComputerId = 4, GraphicsId = 5 }, // "Ultra Slim" z NVIDIA RTX 2060 Super
+                new ComputersGraphics() { Id = 5, ComputerId = 5, GraphicsId = 2 }, // "Graphic Designer Pro" z AMD Radeon RX 6800
+                new ComputersGraphics() { Id = 6, ComputerId = 6, GraphicsId = 4 }, // "Budget Friendly" z AMD Radeon RX 5500 XT
+                new ComputersGraphics() { Id = 7, ComputerId = 1, GraphicsId = 2 }, // Dodatkowa opcja: "Gamer Extreme" również z AMD Radeon RX 6800 dla różnorodności
+                new ComputersGraphics() { Id = 8, ComputerId = 3, GraphicsId = 6 }, // Dodatkowa opcja: "Workstation Power" również z AMD Radeon RX 5700
+                new ComputersGraphics() { Id = 9, ComputerId = 5, GraphicsId = 7 }  // Dodatkowa opcja: "Graphic Designer Pro" również z NVIDIA RTX 3090
             );
         }
     }
