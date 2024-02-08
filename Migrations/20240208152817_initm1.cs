@@ -58,9 +58,9 @@ namespace AppDataBase.Migrations
                 {
                     GraphicsId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     MemoryGB = table.Column<int>(type: "int", nullable: false),
-                    ConnectorType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ConnectorType = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
                     CoreClockMHz = table.Column<int>(type: "int", nullable: false),
                     RecommendedPower = table.Column<int>(type: "int", nullable: false)
                 },
@@ -75,8 +75,8 @@ namespace AppDataBase.Migrations
                 {
                     ProducerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     YearFounded = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -196,10 +196,10 @@ namespace AppDataBase.Migrations
                 {
                     ComputerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     MemoryRam = table.Column<int>(type: "int", nullable: false),
                     MemoryDisk = table.Column<int>(type: "int", nullable: false),
-                    Processor = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Processor = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     DateOfProduction = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ProducerId = table.Column<int>(type: "int", nullable: true)
                 },

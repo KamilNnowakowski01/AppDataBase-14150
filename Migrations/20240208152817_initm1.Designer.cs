@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppDataBase.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240208141321_initm1")]
+    [Migration("20240208152817_initm1")]
     partial class initm1
     {
         /// <inheritdoc />
@@ -44,11 +44,13 @@ namespace AppDataBase.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Processor")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int?>("ProducerId")
                         .HasColumnType("int");
@@ -206,7 +208,8 @@ namespace AppDataBase.Migrations
 
                     b.Property<string>("ConnectorType")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<int>("CoreClockMHz")
                         .HasColumnType("int");
@@ -216,7 +219,8 @@ namespace AppDataBase.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("RecommendedPower")
                         .HasColumnType("int");
@@ -301,11 +305,13 @@ namespace AppDataBase.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.Property<int>("YearFounded")
                         .HasColumnType("int");
