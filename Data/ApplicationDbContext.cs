@@ -1,9 +1,9 @@
-﻿using AppModel.Models; // Ensure this namespace matches your model's namespace
+﻿using AppModel.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace AppDataBase.Data // Change to your actual namespace
+namespace AppDataBase.Data
 {
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
@@ -21,8 +21,6 @@ namespace AppDataBase.Data // Change to your actual namespace
         {
             base.OnModelCreating(modelBuilder);
 
-            // Relations
-            // Many-to-Many: Book and Author
             modelBuilder.Entity<ComputersGraphics>()
                 .HasKey(ba => new { ba.ComputerId, ba.GraphicsId });
 
@@ -35,7 +33,7 @@ namespace AppDataBase.Data // Change to your actual namespace
                 .HasOne(ba => ba.Graphics)
                 .WithMany(a => a.ComputersGraphics)
                 .HasForeignKey(ba => ba.GraphicsId);
-            // One-to-Many: Book and Publisher
+
             modelBuilder.Entity<Computer>()
                 .HasOne(b => b.Producer)
                 .WithMany(p => p.Computers)
@@ -71,15 +69,15 @@ namespace AppDataBase.Data // Change to your actual namespace
             );
 
             modelBuilder.Entity<ComputersGraphics>().HasData(
-                new ComputersGraphics() { Id = 1, ComputerId = 1, GraphicsId = 7 }, // "Gamer Extreme" z NVIDIA RTX 3090
-                new ComputersGraphics() { Id = 2, ComputerId = 2, GraphicsId = 3 }, // "Office Pro" z NVIDIA GTX 1660 Ti
-                new ComputersGraphics() { Id = 3, ComputerId = 3, GraphicsId = 1 }, // "Workstation Power" z NVIDIA RTX 3080
-                new ComputersGraphics() { Id = 4, ComputerId = 4, GraphicsId = 5 }, // "Ultra Slim" z NVIDIA RTX 2060 Super
-                new ComputersGraphics() { Id = 5, ComputerId = 5, GraphicsId = 2 }, // "Graphic Designer Pro" z AMD Radeon RX 6800
-                new ComputersGraphics() { Id = 6, ComputerId = 6, GraphicsId = 4 }, // "Budget Friendly" z AMD Radeon RX 5500 XT
-                new ComputersGraphics() { Id = 7, ComputerId = 1, GraphicsId = 2 }, // Dodatkowa opcja: "Gamer Extreme" również z AMD Radeon RX 6800 dla różnorodności
-                new ComputersGraphics() { Id = 8, ComputerId = 3, GraphicsId = 6 }, // Dodatkowa opcja: "Workstation Power" również z AMD Radeon RX 5700
-                new ComputersGraphics() { Id = 9, ComputerId = 5, GraphicsId = 7 }  // Dodatkowa opcja: "Graphic Designer Pro" również z NVIDIA RTX 3090
+                new ComputersGraphics() { Id = 1, ComputerId = 1, GraphicsId = 7 },
+                new ComputersGraphics() { Id = 2, ComputerId = 2, GraphicsId = 3 },
+                new ComputersGraphics() { Id = 3, ComputerId = 3, GraphicsId = 1 },
+                new ComputersGraphics() { Id = 4, ComputerId = 4, GraphicsId = 5 },
+                new ComputersGraphics() { Id = 5, ComputerId = 5, GraphicsId = 2 },
+                new ComputersGraphics() { Id = 6, ComputerId = 6, GraphicsId = 4 },
+                new ComputersGraphics() { Id = 7, ComputerId = 1, GraphicsId = 2 },
+                new ComputersGraphics() { Id = 8, ComputerId = 3, GraphicsId = 6 },
+                new ComputersGraphics() { Id = 9, ComputerId = 5, GraphicsId = 7 }
             );
         }
     }
